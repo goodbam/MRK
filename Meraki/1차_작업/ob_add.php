@@ -56,6 +56,19 @@
     curl_setopt($ch1, CURLOPT_POSTFIELDS, $data_json); 
     curl_setopt ($ch1, CURLOPT_RETURNTRANSFER, 1);
     $res=curl_exec($ch1);
+
+    date_default_timezone_set('Asia/Seoul');
+    $date = date("Y_m_d",time());
+    $detail_date = date("Y_m_d_h:i:s");
+    $fp=fopen("backup/ACL_log/$date.txt","a+");//경로
+    $msg ="\r\n";
+    $msg.="[add {time:$detail_date}]\r\n";
+    $msg.="{ip : $ip}\r\n";
+    $msg.="--response massege--\r\n";
+    $msg.=$res."\r\n";
+    fwrite($fp,$msg);
+    fclose($fp);
+    curl_close($ch1);
 ?>
  
 
