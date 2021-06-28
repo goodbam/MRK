@@ -1,5 +1,5 @@
 <?php
-    $ip = $_POST['ip'];
+    $ip = $_GET['ip'];
 
     $url ='https://api.meraki.com/api/v0/networks/L_575334852396597311/switch/accessControlLists';
     
