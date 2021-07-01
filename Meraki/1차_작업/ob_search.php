@@ -15,19 +15,16 @@
    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-    
    $res = curl_exec ($ch);
-    
-   $ACL_list = json_decode($res,TRUE);
-   
-   for( $i = 0 ; $i < count($ACL_list["rules"]); $i++){      
-      if($ACL_list["rules"][$i]["srcCidr"]=="$ip/32"){
-         $policy = $ACL_list["rules"][$i]["policy"];
-         break;
-      }
-   };
-   
-   if(isset($policy)){
+   $ACL_list=json_decode($res,TRUE);
+   curl_close($ch);
+      
+   $check=0;
+   foreach($ACL_list['rules'] as $key => $value){
+      if($value=="$ip/32")$check++;
+   }
+      
+   if($check==1){
       echo "OK";
    }else{
       echo "Null";
